@@ -19,7 +19,9 @@ struct Provider: TimelineProvider {
     typealias Entry = Account
     
     static func placeholder() -> Account {
-        Account(piggyBanks: [PiggyBank(name: "My Piggy Bank", balance: 100)], transactions: [Transaction(date: Date(), amount: 100)])
+        Account(piggyBanks: [PiggyBank(name: "My Piggy Bank", balance: 100)],
+                transactions: [Transaction(date: Date(), amount: 1400, otherAccount: ""),
+                               Transaction(date: Date(timeIntervalSinceNow: TimeInterval(-5184000)), amount: 9900, otherAccount: "")])
     }
     
     func placeholder(in context: Context) -> Account {
@@ -49,8 +51,6 @@ struct Piggy_Bank_WidgetEntryView : View {
 
 struct Piggy_Bank_Widget: Widget {
     let kind: String = "Piggy_Bank_Widget"
-    
-    var supportedFamilies: [WidgetFamily] = [.systemSmall, .systemMedium]
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
@@ -65,6 +65,7 @@ struct Piggy_Bank_Widget: Widget {
         }
         .configurationDisplayName("Piggy Bank Widget")
         .description("See your savings rate.")
+        .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
 

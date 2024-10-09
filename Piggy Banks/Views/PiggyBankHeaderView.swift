@@ -24,7 +24,7 @@ struct PiggyBankHeaderView: View {
             }
             
             if let goal = piggyBank.goal {
-                let metGoal = piggyBank.balance.doubleValue > goal.doubleValue
+                let metGoal = piggyBank.balance >= goal
                 HStack {
                     ProgressView(value: metGoal ? goal.doubleValue : piggyBank.balance.doubleValue,
                                  total: goal.doubleValue)

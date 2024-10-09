@@ -59,6 +59,7 @@
 				Helpers/TextColor.swift,
 				"Helpers/View+Widgets.swift",
 				ViewModels/Account.swift,
+				ViewModels/BankAccounts.swift,
 				ViewModels/PiggyBank.swift,
 				ViewModels/Transaction.swift,
 				Views/SummaryHeader.swift,
@@ -390,7 +391,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4C5PKCLQ2W;
+				DEVELOPMENT_TEAM = 29DK7WQ7JF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -418,7 +419,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4C5PKCLQ2W;
+				DEVELOPMENT_TEAM = 29DK7WQ7JF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -446,7 +447,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4C5PKCLQ2W;
+				DEVELOPMENT_TEAM = 29DK7WQ7JF;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Piggy Bank Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Piggy Bank Widget";
@@ -473,7 +474,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4C5PKCLQ2W;
+				DEVELOPMENT_TEAM = 29DK7WQ7JF;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Piggy Bank Widget/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Piggy Bank Widget";

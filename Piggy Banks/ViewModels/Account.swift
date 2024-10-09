@@ -25,8 +25,12 @@ final class Account {
         saved(since: Date().addingTimeInterval(-604800))
     }
     
-    var totalSavingsGoal: Decimal {
-        piggyBanks.reduce(.zero) { $0 + ($1.goal ?? .zero) }
+    var savedThisMonth: Decimal {
+        saved(since: Date().addingTimeInterval(-2592000))
+    }
+    
+    var totalSavingsBalance: Decimal {
+        transactions.reduce(.zero) { $0 + $1.amount }
     }
     
     init(piggyBanks: [PiggyBank] = [], transactions: [Transaction] = []) {
@@ -40,16 +44,18 @@ final class Account {
     
     // MARK: Model CRUD
     
-    func addPiggyBank(name: String, balance: Decimal = .zero, goal: Decimal? = nil, monthlyAmount: Decimal? = nil, monthlyRate: Decimal? = nil) {
-        let piggyBank = PiggyBank(name: name, balance: balance, goal: goal, monthlyAmount: monthlyAmount, monthlyRate: monthlyRate)
+    func addPiggyBank(name: String, balance: Decimal = .zero, goal: Decimal? = nil, monthlyAmount: Decimal? = nil) {
+        let piggyBank = PiggyBank(name: name, balance: balance, goal: goal, monthlyAmount: monthlyAmount)
         modelContext?.insert(piggyBank)
         piggyBanks.append(piggyBank)
     }
     
-    func addTransaction(amount: Decimal, date: Date = Date(), piggyBank: PiggyBank? = nil) {
-        let transaction = Transaction(date: date, amount: amount, piggyBank: piggyBank)
+    func addTransaction(amount: Decimal, date: Date = Date(), otherAccount: String, piggyBank: PiggyBank? = nil) {
+        let transaction = Transaction(date: date, amount: amount, otherAccount: otherAccount, piggyBank: piggyBank)
         modelContext?.insert(transaction)
         transactions.append(transaction)
+        
+        piggyBank?.balance += amount
     }
     
     func deletePiggyBank(with id: PersistentIdentifier) {

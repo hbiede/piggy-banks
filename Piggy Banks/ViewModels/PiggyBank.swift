@@ -10,7 +10,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class PiggyBank {
+final class PiggyBank: ObservableObject {
     #Index<PiggyBank>([\.name])
     
     @Relationship(inverse: \Account.piggyBanks)
@@ -27,13 +27,11 @@ final class PiggyBank {
     var balance: Decimal
     var goal: Decimal?
     var monthlyAmount: Decimal?
-    var monthlyRate: Decimal?
     
-    init(name: String, balance: Decimal = .zero, goal: Decimal? = nil, monthlyAmount: Decimal? = nil, monthlyRate: Decimal? = nil) {
+    init(name: String, balance: Decimal = .zero, goal: Decimal? = nil, monthlyAmount: Decimal? = nil) {
         self.name = name
         self.balance = balance
         self.goal = goal
         self.monthlyAmount = monthlyAmount
-        self.monthlyRate = monthlyRate
     }
 }

@@ -13,13 +13,15 @@ import SwiftData
 final class Transaction {
     var date: Date
     var amount: Decimal
+    var otherAccount: String
     
     @Relationship(inverse: \PiggyBank.__transactions)
     var piggyBank: PiggyBank?
     
-    init(date: Date, amount: Decimal, piggyBank: PiggyBank? = nil) {
+    init(date: Date, amount: Decimal, otherAccount: String, piggyBank: PiggyBank? = nil) {
         self.date = date
         self.amount = amount
+        self.otherAccount = otherAccount
         self.piggyBank = piggyBank
     }
 }

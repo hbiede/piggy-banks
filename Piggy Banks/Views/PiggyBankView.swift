@@ -12,30 +12,52 @@ struct PiggyBankView: View {
     var piggyBank: PiggyBank
     
     var body: some View {
-        if let account = piggyBank.account {
-            PiggyBankHeaderView(piggyBank: piggyBank)
-                .padding(.horizontal)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink(destination: EditPiggyBankView(account: account, bank: piggyBank)) {
-                            Image(systemName: "pencil")
-                                .bold()
+        VStack {
+            if let account = piggyBank.account {
+                PiggyBankHeaderView(piggyBank: piggyBank)
+                    .padding(.horizontal)
+                    .padding(.top)
+                    .navigationTitle(piggyBank.name)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            NavigationLink(destination: TransferView(account: account, piggyBank: piggyBank)) {
+                                Image(systemName: "arrow.left.arrow.right")
+                                    .bold()
+                            }
+                        }
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            NavigationLink(destination: EditPiggyBankView(account: account, bank: piggyBank)) {
+                                Image(systemName: "pencil")
+                                    .bold()
+                            }
                         }
                     }
-                }
-        } else {
-            PiggyBankHeaderView(piggyBank: piggyBank)
-                .padding(.horizontal)
-        }
-        
-        List {
-            ForEach(piggyBank.transactions, id: \.id) { tran in
-                HStack {
-                    Text(tran.date.formatted(date: .numeric, time: .omitted))
-                    Spacer()
-                    Text(tran.amount.currencyString)
+            } else {
+                PiggyBankHeaderView(piggyBank: piggyBank)
+                    .padding(.horizontal)
+            }
+            
+            
+            List {
+                Section {
+                    ForEach(piggyBank.transactions, id: \.id) { tran in
+                        NavigationLink(destination: {
+                            TransactionDetailView(transaction: tran)
+                        }, label: {
+                            HStack {
+                                Text(tran.date.formatted(date: .numeric, time: .omitted))
+                                Spacer()
+                                Text(tran.amount.currencyString)
+                            }
+                        })
+                        .isDetailLink(true)
+                    }
+                } header: {
+                    Text("Transaction history")
                 }
             }
+            .listSectionSeparator(.hidden)
+            .listStyle(.insetGrouped)
         }
     }
 }

@@ -8,7 +8,20 @@
 
 import SwiftUI
 
+struct MaterialTextFieldStyle: TextFieldStyle {
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .padding(12)
+            .background(
+                RoundedRectangle(cornerRadius: 4)
+                    .stroke(Color.gray4, lineWidth: 1)
+            )
+    }
+}
+
 struct EditPiggyBankView: View {
+    @Environment(\.dismiss) var dismiss
+    
     var account: Account
     
     var bank: PiggyBank?
@@ -33,29 +46,71 @@ struct EditPiggyBankView: View {
     
     var body: some View {
         VStack {
-            Text("Title")
+            Text("Goal name")
                 .frame(maxWidth: .infinity, alignment: .leading)
-            TextField("", text: $nameInput)
-                .textFieldStyle(.roundedBorder)
+            TextField("Insert title", text: $nameInput)
+                .textFieldStyle(MaterialTextFieldStyle())
                 .autocapitalization(.words)
+            Text("Name of piggy bank")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .foregroundStyle(.secondary)
+                .font(.caption)
                 .padding(.bottom)
             
             Text("Monthly savings rate")
                 .frame(maxWidth: .infinity, alignment: .leading)
-            TextField("", value: $monthlySavingsRate, format: .currency(code: "USD"))
-                .textFieldStyle(.roundedBorder)
+            TextField("Insert monthly savings rate", value: $monthlySavingsRate, format: .currency(code: "USD"))
+                .textFieldStyle(MaterialTextFieldStyle())
                 .keyboardType(.decimalPad)
+            Text("Dollar amount (eg, $50.00)")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .foregroundStyle(.secondary)
+                .font(.caption)
                 .padding(.bottom)
             
-            Text("Goal")
+            Text("Total savings goal")
                 .frame(maxWidth: .infinity, alignment: .leading)
-            TextField("", value: $goal, format: .currency(code: "USD"))
-                .textFieldStyle(.roundedBorder)
+            TextField("Insert goal", value: $goal, format: .currency(code: "USD"))
+                .textFieldStyle(MaterialTextFieldStyle())
+            Text("Dollar amount (eg, $1,000.00)")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .foregroundStyle(.secondary)
+                .font(.caption)
                 .keyboardType(.decimalPad)
+            
+            NavigationLink(destination: {
+                Text("Placeholder")
+            }, label: {
+                HStack {
+                    Image(systemName: "info.circle")
+                        .foregroundStyle(.link)
+                    Text("Get recomendations")
+                        .foregroundStyle(.link)
+                        .font(.subheadline)
+                        .underline()
+                }
+            })
+            .padding(.top, 32)
+            .frame(maxWidth: .infinity, alignment: .leading)
             
             Spacer()
             
+            Text("\"Users with multiple goals save more.\"")
+            Text("- Teresa Manago")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .padding(.bottom, 48)
+            
             if let bank = bank {
+                let disabled = nameInput.isEmpty ||
+                    monthlySavingsRate == nil ||
+                    monthlySavingsRate == 0 ||
+                    goal == nil ||
+                    goal == 0 ||
+                    (nameInput == bank.name &&
+                    monthlySavingsRate == bank.monthlyAmount &&
+                    goal == bank.goal)
+                
                 HStack {
                     Button(action: onDelete) {
                         Text("Delete")
@@ -70,8 +125,9 @@ struct EditPiggyBankView: View {
                         Text("Save")
                             .foregroundStyle(Color.white)
                             .padding(16)
-                            .background(.accent)
+                            .background(disabled ? .accent.opacity(0.5) : .accent)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .disabled(disabled)
                     }
                     .padding(.bottom)
                     .onAppear() {
@@ -81,12 +137,18 @@ struct EditPiggyBankView: View {
                     }
                 }
             } else {
+                let disabled = nameInput.isEmpty ||
+                    monthlySavingsRate == nil ||
+                    monthlySavingsRate == 0 ||
+                    goal == nil ||
+                    goal == 0
                 Button(action: onSubmit) {
                     Text("Submit")
                         .foregroundStyle(Color.white)
                         .padding(16)
-                        .background(.accent)
+                        .background(disabled ? .accent.opacity(0.5) : .accent)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .disabled(disabled)
                 }
                 .padding(.bottom)
                 .onAppear() {
@@ -110,10 +172,14 @@ struct EditPiggyBankView: View {
         bank.name = nameInput
         bank.monthlyAmount = monthlySavingsRate
         bank.goal = goal
+        
+        dismiss()
     }
     
     private func onSubmit() {
         account.addPiggyBank(name: nameInput, goal: goal, monthlyAmount: monthlySavingsRate)
+        
+        dismiss()
     }
 }
 

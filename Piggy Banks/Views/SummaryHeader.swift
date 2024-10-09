@@ -20,17 +20,20 @@ struct SummaryHeader: View {
                 .multilineTextAlignment(.leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .tintable()
-            Text(short ? account.totalSavingsGoal.shortCurrencyString : account.totalSavingsGoal.currencyString)
+                .minimumScaleFactor(0.2)
+            Text(short ? account.totalSavingsBalance.shortCurrencyString : account.totalSavingsBalance.currencyString)
                 .multilineTextAlignment(.leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.largeTitle)
                 .bold()
-            Text("\(account.savedThisWeek.shortCurrencyString) This Week")
+                .minimumScaleFactor(0.4)
+            Text("\(account.savedThisMonth.shortCurrencyString) This Month")
                 .multilineTextAlignment(.leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .foregroundColor(currencyColor(for: account.savedThisWeek))
                 .tintable(false)
                 .bold()
+                .minimumScaleFactor(0.2)
         }
     }
 }

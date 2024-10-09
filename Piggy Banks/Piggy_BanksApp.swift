@@ -12,9 +12,7 @@ import SwiftData
 @main
 struct Piggy_BanksApp: App {
     var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Account.self,
-        ])
+        let schema = Schema([Account.self], version: .init(1, 0, 0))
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {

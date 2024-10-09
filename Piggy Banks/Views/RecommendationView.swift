@@ -23,28 +23,28 @@ struct RecommendationView: View {
     var account: Account
     
     var body: some View {
-        VStack {
-            Text("What would you like to do?")
-            
-            Spacer()
-            
-            LazyVGrid(columns: [GridItem(), GridItem()]) {
-                ForEach(options.dropLast(options.count % 2), id: \.0, content: cell)
-            }
-            .padding(.top, 0)
-            if options.count % 2 == 1, let last = options.last {
-                LazyHStack {
-                    cell(for: last)
+        ScrollView {
+            VStack {
+                Text("Make it easy for you to manage your financial life with this online saving feature.\nWhat would you like to do?")
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(Color.gray7)
+                    .padding(.horizontal)
+                    .padding(.top)
+                
+                LazyVGrid(columns: [GridItem(), GridItem()]) {
+                    ForEach(options.dropLast(options.count % 2), id: \.0, content: cell)
                 }
-                .fixedSize(horizontal: false, vertical: true)
+                .padding(.top, 0)
+                if options.count % 2 == 1, let last = options.last {
+                    LazyHStack {
+                        cell(for: last)
+                    }
+                    .fixedSize(horizontal: false, vertical: true)
+                }
+                
+                Spacer()
             }
-            
-            Spacer()
-            
-            Text("\"Users with multiple goals save more.\"")
-            Text("- anonymous")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            .padding(.horizontal)
         }
         .navigationTitle("Recommendations")
     }
@@ -52,17 +52,23 @@ struct RecommendationView: View {
     private func cell(for option: Option) -> some View {
         VStack {
             option.image
+                .resizable(resizingMode: .stretch)
+                .scaledToFit()
+                .aspectRatio(1, contentMode: .fit)
             NavigationLink(destination: {
                 EditPiggyBankView(account: account, name: option.name, amount: option.amount)
             }, label: {
                 Text(option.shortName ?? option.name)
-                    .padding(12)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.vertical, 12)
+                    .padding(.horizontal, 16)
                     .foregroundStyle(Color.white)
-                    .background(Color.blue)
+                    .background(.accent)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .padding(.horizontal)
             })
         }
-        .frame(width: 140, height: 140)
+        .frame(width: 150, height: 150)
         .padding(.vertical)
     }
 }
@@ -70,7 +76,7 @@ struct RecommendationView: View {
 #if DEBUG
 import SwiftData
 
-#Preview {
+#Preview(traits: .sampleData) {
     @Previewable @Query var accounts: [Account] = [Account]()
     
     RecommendationView(account: accounts.first!)
